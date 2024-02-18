@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>GET BY ID</title>
+    <style>
+        table,th,td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th,th{
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>GET BY ID</h2>
+    Get bu Id : <input type="number" id="num">
+    <button onclick="get_users()">get by id</button>
+    &nbsp;<span id="result" style="color: red;"></span><br><br>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>USER NAME</th>
+                <th>EMAIL</th>
+                <th>CITY</th>
+                <th>PHONE</th>
+                <th>WEBSITE</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <SCript>
+        function get_users() {
+            fetch("http://localhost:3000/users/" + document.getElementById("num").value)
+                .then(resposne => {
+                    if (resposne.status == 404) {
+                        document.getElementById("result").innerHTML = "Not Found ..."
+                        return null
+                    }
+                    return resposne.json()
+                    
+                })
+                .then(users => {
+                    console.log(users);
+                    const tbody = document.getElementById("table").getElementsByTagName("tbody")[0]
+                    //tbody.innerHTML = ""
+
+                    if (users == null) {
+                        return
+                    }
+
+                    if (Array.isArray(users) == false ) {
+                        users = [users]
+                    }
+
+                    users.forEach(user => {
+                        const new_row = document.createElement("tr")
+                        insert_cell(new_row,user.id)
+                        insert_cell(new_row,user.name)
+                        insert_cell(new_row,user.username)
+                        insert_cell(new_row,user.email)
+                        insert_cell(new_row,user.address.city)
+                        insert_cell(new_row,user.phone)
+                        insert_cell(new_row,user.website)
+                        tbody.appendChild(new_row)
+
+                    });
+                })
+            function insert_cell(new_row, data) {
+                const new_cell = document.createElement("td")
+                new_cell.textContent = (data)
+                new_row.appendChild(new_cell)
+            }
+
+        }
+        //get_users()
+    </SCript>
+
+</body>
+
+</html>

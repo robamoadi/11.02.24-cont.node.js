@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>DELETE</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"], input[type="email"], input[type="url"] {
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DELETE</title>
+</head>
+
+<body>
+    <h2>Delete User</h2>
+    <form id="user_form">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id">
+
+       
+        <input type="submit" value="Send">        
+    </form>
+    <script>
+        function my_submit(e) {
+            e.preventDefault(); // prevents from the page to reload
+            //document.getElementsByTagName('body')[0].innerHTML += "Done."
+
+            const new_user = {
+                id: document.getElementById('id').value,
+                
+            }
+
+            const send_details = {
+                method: 'DELETE',
+             
+            }
+            fetch(`http://localhost:3000/users/${new_user.id}`, send_details)
+            .then(response => response.json())
+            .then(data => {
+                alert('new user added')
+            })
+        }
+
+        document.getElementById('user_form').onsubmit = my_submit
+    </script>
+</body>
+
+</html>
